@@ -3,11 +3,11 @@ package com.example.restaurant.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Data
 @Builder
@@ -41,4 +41,8 @@ public class Customer{
 //
 //    @NotNull(message = "Pincode is required")
 //    private Integer pincode;
+public void setPassword(String password) {
+    this.password = new BCryptPasswordEncoder().encode(password);
+}
+
 }
