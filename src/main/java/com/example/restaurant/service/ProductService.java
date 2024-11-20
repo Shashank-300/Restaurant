@@ -36,4 +36,9 @@ public class ProductService {
         return productRepository.save(product);
     }
 
+    // Custom query
+    public List<Product> getTop2ProductsByPriceRange() {
+        return productRepository.findTop2ProductsByPriceRange();
+    }
+
 }
