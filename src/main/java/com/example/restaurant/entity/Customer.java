@@ -15,34 +15,23 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @AllArgsConstructor
 @Entity
 @Table(name = "customer")
-public class Customer{
+public class Customer {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotBlank(message = "First name is required")
+    @Column(name = "first_name", nullable = false)
     private String firstName;
 
+    @Column(name = "last_name")
     private String lastName;
 
-    @NotBlank(message = "Email is required")
-    @Email(message = "Invalid email format")
-    @Column(unique = true)
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
 
-    @NotBlank(message = "Password is required")
+    @Column(name="password", nullable = false)
     private String password;
 
-//    @NotBlank(message = "Address is required")
-//    private String address;
-//
-//    @NotBlank(message = "City is required")
-//    private String city;
-//
-//    @NotNull(message = "Pincode is required")
-//    private Integer pincode;
-public void setPassword(String password) {
-    this.password = new BCryptPasswordEncoder().encode(password);
-}
-
+    @Column(name = "access_token", unique = true)
+    private String accessToken;
 }
