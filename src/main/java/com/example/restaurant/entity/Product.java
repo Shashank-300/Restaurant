@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class Product {
     @Id
     @Column(name = "id", nullable = false)
-    private Integer id;
+    private Long id;
     @Column(name = "price")
     private double price;
     @Column(name = "name")

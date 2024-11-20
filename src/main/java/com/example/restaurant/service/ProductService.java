@@ -37,7 +37,7 @@ public class ProductService {
     }
 
     // Custom query
-    public List<Product> getTop2ProductsByPriceRange() {
+    public List<Product> getTop2ProductPriceRange() {
         return productRepository.findTop2ProductPriceRange();
     }
 
