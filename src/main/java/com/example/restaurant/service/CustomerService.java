@@ -5,6 +5,8 @@ import com.example.restaurant.dto.CustomerResponse;
 import com.example.restaurant.dto.LoginRequest;
 import com.example.restaurant.entity.Customer;
 import com.example.restaurant.exception.CustomerNotFoundException;
+import com.example.restaurant.helper.EncryptionService;
+import com.example.restaurant.helper.JWTHelper;
 import com.example.restaurant.mapper.CustomerMapper;
 import com.example.restaurant.repo.CustomerRepo;
 import com.example.restaurant.repo.CustomerRepository;
@@ -25,10 +27,13 @@ public class CustomerService {
 
     private final CustomerRepo customerRepo;
     private final CustomerMapper customerMapper;
+    private final EncryptionService encryptionService;
+    private final JWTHelper jwtHelper;
     public String createCustomer(CustomerRequest request) {
-        Customer customer = customerMapper.toEntity(request);
+        Customer customer = customerMapper.toCustomer(request);
+        customer.setPassword(encryptionService.encode(customer.getPassword()));
         customerRepo.save(customer);
-        return "Created";
+        return "Customer Created Successfully";
     }
 
     public Customer getCustomer(String email) {
@@ -43,17 +48,16 @@ public class CustomerService {
         return CustomerMapper.toCustomerResponse(customer);
     }
     public String login(LoginRequest request) {
-        // Retrieve the customer object using the provided email
         Customer customer = getCustomer(request.email());
+        System.out.println(request.password());
+        System.out.println(customer.getEmail());
+        if(!encryptionService.validates(request.password(), customer.getPassword())) {
 
-        // Validate the password directly (plaintext comparison)
-        if (!request.password().equals(customer.getPassword())) {
             return "Wrong Password or Email";
         }
-
-        // Generate and return a JWT token if validation is successful
-        return "Validated";
+        String token = jwtHelper.generateToken(customer.getEmail());
+        System.out.println(token);
+        return token;
     }
-
 
 }
