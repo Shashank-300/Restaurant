@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product,Long> {
     @Query(value = "SELECT * FROM product WHERE price BETWEEN 15 AND 30 ORDER BY price ASC LIMIT 2", nativeQuery = true)
-    List<Product> findTop2ProductsByPriceRange();
+    List<Product> findTop2ProductPriceRange();
 }
